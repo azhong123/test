@@ -17,7 +17,7 @@ public class FastQuickStart extends AbstractHandler{
 			HttpServletResponse response) throws IOException, ServletException {
 		response.setContentType("text/html; charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().println("<h1>Hello World</h1>");
+//        response.getWriter().println("<h1>Hello World</h1>");
         baseRequest.setHandled(true);
 		
 	}
@@ -32,6 +32,7 @@ public class FastQuickStart extends AbstractHandler{
         server.setHandler(new FastQuickStart());
         server.start();
         server.join();
+        System.out.println("server has started");
 	}
 
 }

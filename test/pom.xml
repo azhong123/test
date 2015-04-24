@@ -9,12 +9,22 @@
   	<jetty.version>9.2.11-SNAPSHOT</jetty.version>
   </properties>
   
+  <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.2.3.RELEASE</version>
+    </parent>
+  
   <dependencies>
   	<dependency>
   		<groupId>org.eclipse.jetty.aggregate</groupId>
   		<artifactId>jetty-webapp</artifactId>
   		<version>8.1.9.v20130131</version>
   	</dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-thymeleaf</artifactId>
+    </dependency>
   </dependencies>
   <build>
   	<plugins>
