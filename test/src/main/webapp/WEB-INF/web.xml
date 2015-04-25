@@ -16,4 +16,11 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	<!-- spring mvc end -->
+	
+	<!-- spring start -->
+	<!-- 默认加载 /WEB-INF/applicationContext.xml-->
+	<listener>
+	  <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<!-- spring end -->
 </web-app>
