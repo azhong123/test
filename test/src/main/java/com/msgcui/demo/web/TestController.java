@@ -11,7 +11,7 @@ public class TestController {
 	@RequestMapping(method=RequestMethod.GET)
 	public String test(){
 		System.out.println("test");
-		return "login.jsp";
+		return "login";
 	}
 
 }

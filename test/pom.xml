@@ -13,23 +13,28 @@
   </properties>
   
   <dependencies>
-  	<!--  spring mvc jar -->
+  	<!--  spring mvc start -->
   	<dependency>
 		<groupId>org.springframework</groupId>
 		<artifactId>spring-webmvc</artifactId>
 		<version>${org.springframework-version}</version>
 	</dependency>
-  	<dependency>
-  		<groupId>org.eclipse.jetty</groupId>
-  		<artifactId>jetty-maven-plugin</artifactId>
-  		<version>9.0.6.v20130930</version>
-  		<type>maven-plugin</type>
-  	</dependency>
+	<!-- spring mvc end -->
+	
+	<!-- jetty begin (eclipse 调试)-->
   	<dependency>
   		<groupId>org.eclipse.jetty</groupId>
   		<artifactId>jetty-webapp</artifactId>
   		<version>9.0.6.v20130930</version>
   	</dependency>
+  		<dependency>
+		<groupId>org.eclipse.jetty</groupId>
+		<artifactId>jetty-jsp</artifactId>
+		<version>9.0.6.v20130930</version>
+	</dependency>
+	<!-- jetty end -->
+	
+	<!-- spring start -->
   	<dependency>
 		<groupId>org.springframework</groupId>
 		<artifactId>spring-test</artifactId>
@@ -42,6 +47,37 @@
 		<version>4.11</version>
 		<scope>test</scope>
 	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-context</artifactId>
+		<version>4.1.6.RELEASE</version>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-beans</artifactId>
+		<version>4.1.6.RELEASE</version>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-aop</artifactId>
+		<version>4.1.6.RELEASE</version>
+	</dependency>
+	<dependency>
+		<groupId>org.aspectj</groupId>
+		<artifactId>aspectjrt</artifactId>
+		<version>1.8.1</version>
+	</dependency>
+	<dependency>
+		<groupId>com.fasterxml.jackson.core</groupId>
+		<artifactId>jackson-core</artifactId>
+		<version>2.4.5</version>
+	</dependency>
+	<dependency>
+		<groupId>com.fasterxml.jackson.core</groupId>
+		<artifactId>jackson-databind</artifactId>
+		<version>2.4.5</version>
+	</dependency>
+	<!-- spring end -->
   </dependencies>
   <build>
   	<plugins>
