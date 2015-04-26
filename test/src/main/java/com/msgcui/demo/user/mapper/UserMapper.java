@@ -1,24 +1,19 @@
 package com.msgcui.demo.user.mapper;
 
-import java.io.Serializable;
+import com.msgcui.demo.base.mapper.BaseMapper;
 
-public class UserMapper implements Serializable{
 
-	private int id;
-	
+public class UserMapper extends BaseMapper{
+
 	private String name;
 	
-	private String age;
+	private String loginName;
 	
-	private int sex;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
+	private String password;
+	
+	private String email;
+	
+	private String phone;
 
 	public String getName() {
 		return name;
@@ -28,20 +23,37 @@ public class UserMapper implements Serializable{
 		this.name = name;
 	}
 
-	public String getAge() {
-		return age;
+	public String getLoginName() {
+		return loginName;
 	}
 
-	public void setAge(String age) {
-		this.age = age;
+	public void setLoginName(String loginName) {
+		this.loginName = loginName;
 	}
 
-	public int getSex() {
-		return sex;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setSex(int sex) {
-		this.sex = sex;
+	public void setPassword(String password) {
+		this.password = password;
 	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	
 	
 }

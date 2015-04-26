@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.msgcui.demo.role.dao.RoleMenusDao">
+    <resultMap id="roleMenusResult" type="RoleMenusMapper">
+        <id property="id" column="id" />
+        <result property="roleId" column="role_id" />
+        <result property="menusId" column="menus_id" />
+        <result property="inputTime" column="input_time" />
+        <result property="inputUserId" column="input_user_id" />
+        <result property="modifyTime" column="modify_time" />
+        <result property="modifyUserId" column="modify_user_id" />
+        <result property="descript" column="descript" />
+        <result property="status" column="status" />
+    </resultMap>
+    
+    <insert id="add" keyProperty="id" useGeneratedKeys="true" parameterType="RoleMenusMapper">
+    	insert into ms_role_menus(role_id,menus_id,input_time,input_user_id,modify_time,modify_user_id,descript,status) 
+    	values(#{roleId},#{menusId},#{inputTime},#{inputUserId},#{modifyTime},#{modifyUserId},#{descript},#{status})
+    </insert>
+    
+    <select id="findAll" resultMap="roleMenusResult">
+    	select * from ms_role_menus where status = 1
+    </select>
+    
+    <select id="findById" parameterType="int" resultMap="roleMenusResult">
+    	select * from ms_role_menus where id = #{id} and status = 1
+    </select>
+</mapper>

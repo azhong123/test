@@ -1,15 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.msgcui.demo.user.dao.UserDao">
-    <resultMap id="userMap" type="UserMapper">
+    <resultMap id="userResult" type="UserMapper">
         <id property="id" column="id" />
         <result property="name" column="name" />
-        <result property="age" column="age" />
-        <result property="sex" column="sex" />
+        <result property="loginName" column="login_name" />
+        <result property="password" column="password" />
+        <result property="email" column="email" />
+        <result property="phone" column="phone" />
+        <result property="inputTime" column="input_time" />
+        <result property="inputUserId" column="input_user_id" />
+        <result property="modifyTime" column="modify_time" />
+        <result property="modifyUserId" column="modify_user_id" />
+        <result property="descript" column="descript" />
+        <result property="status" column="status" />
     </resultMap>
     
-    <select id="findAll" resultMap="userMap">
-    	select * from user
+    <!-- 添加User -->
+    <insert id="add" parameterType="UserMapper" keyProperty="id" useGeneratedKeys="true">
+		insert into ms_sys_user(name,login_name,password,email,phone,input_time,input_user_id,modify_time,modify_user_id,descript,status)
+ 		values(#{name},#{loginName},#{password},#{email},#{phone},#{inputTime},#{inputUserId},#{modifyTime},#{modifyUserId},#{descript},#{status})   	
+    </insert>
+    
+    <select id="findAll" resultMap="userResult">
+    	select * from ms_sys_user where status = 1
+    </select>
+    
+    <select id="findById" resultMap="userResult" parameterType="int">
+    	select * from ms_sys_user where id=#{id} and status = 1
     </select>
     
 </mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.msgcui.demo.menus.dao.MenusDao">
+    <resultMap id="menusResult" type="MenusMapper">
+        <id property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="path" column="path" />
+        <result property="menuId" column="menu_id" />
+        <result property="inputTime" column="input_time" />
+        <result property="inputUserId" column="input_user_id" />
+        <result property="modifyTime" column="modify_time" />
+        <result property="modifyUserId" column="modify_user_id" />
+        <result property="descript" column="descript" />
+        <result property="status" column="status" />
+    </resultMap>
+    
+    <insert id="add" keyProperty="id" useGeneratedKeys="true" parameterType="MenusMapper">
+    	insert into ms_sys_menus (name,path,menu_id,input_time,input_user_id,modify_time,modify_user_id,descript,status) 
+    	values(#{name},#{path},#{menuId},#{inputTime},#{inputUserId},#{modifyTime},#{modifyUserId},#{descript},#{status})
+    </insert>
+    
+    <select id="findAll" resultMap="menusResult">
+    	select * from ms_sys_menus where status = 1
+    </select>
+    
+    <select id="findById" parameterType="int" resultMap="menusResult">
+    	select * from ms_sys_menus where id = #{id} and status = 1
+    </select>
+    
+</mapper>

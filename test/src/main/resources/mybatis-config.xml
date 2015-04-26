@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+  <!-- 枚举类映射 -->
+  <typeHandlers>
+  	 <!-- 以枚举索引值存库 -->
+	 <typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler" javaType="com.msgcui.demo.base.constant.Status"/>
+	 <!-- 以枚举名称存库 -->
+<!-- 	 <typeHandler handler="org.apache.ibatis.type.EnumTypeHandler" javaType="com.msgcui.demo.base.constant.Status"/> -->
+  </typeHandlers>
+</configuration>
