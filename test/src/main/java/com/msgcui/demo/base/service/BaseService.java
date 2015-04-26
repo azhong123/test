@@ -1,4 +1,4 @@
-package com.msgcui.demo.base.mapper;
+package com.msgcui.demo.base.service;
 
 import java.util.List;
 
