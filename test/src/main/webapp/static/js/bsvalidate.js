@@ -1,105 +1,110 @@
 /**
- * 基于bootstrap的jquery validate插件
+ * 基于jquery 与 bootstrap 的表单验证插件
+ * 使用本插件时必须将jquery.js与boostrap.css和bootstrap.js引入
+ * 
+ * 1.暂时支持的验证方法：
+ * 		required:必输
+ * 		minLength:最小长度
+ * 		maxLength:最大长度
+ * 		eqTo:密码验证
+ * 		remote:远程验证
+ * 
+ * 		其他待增加
+ * 
+ * 2. 支持多表单验证。
+ * 
+ * @author gbcui
  */
 
-var _options;
+/**
+ * 初始化Map
+ */
+function Map(){
+	this.container = new Object()
+}
 
-$.fn.bsvalidate = function(option){
+Map.prototype.put = function(key,value){
+	this.container[key] = value;
+}
+
+Map.prototype.get = function(key){
+	return this.container[key];
+}
 	
-	if(typeof(option) == 'string'){
-		executeMethod(option);
+
+/**
+ * 全局表单验证缓存
+ * key:表单id
+ * value:加载表单时options
+ */
+var _formMap = new Map();
+
+/**
+ * jquery扩展
+ */
+$.fn.bsvalidate = function(options){
+	if(typeof(options) == 'string'){
+		
 	}else{
-		initValidate(this,option);
+		// 初始化表单
+		initForm(this,options);
 	}
-	
+
 	/**
-	 * 初始化表单验证
+	 * 初始化表单
 	 */
-	function initValidate($form,options){
-		var defoption = {
-			tips:"bottom",
-			beforSubmit:false
-		};
-		
-		options = $.extend(defoption,options);
-		_options = options;
-		
-		// 设置回调
-		$form.attr("onsubmit","return beforeSubmit(this)");
-		
-		// 初始化
-		initForm($form,options);
-	}
-	
-	/**
-	 * 为每个单元绑定失去焦点事件
-	 */ 
 	function initForm($form,options){
-		var rules = options.rules;
-		for(var key in rules){
-			var id = "#"+key;
-			$(id).blur(function(){
-				validate($(id),rules[key]);
-			});
-		}
-	}
-	
-	function executeMethod(methodName){
-		alert(1);
-	}
-	
-	
-
-}
-
-
-/**
- * 校验form表单中的每个单元
- */ 
-function check($ele,condition){
-	// 单元如果为隐藏或这disabled状态则不进行校验
-	if($ele.attr("type") != "hidden" || !$ele.attr("disabled")){
 		
-		for(var key in condition){
-			if(! validate(key,condition[key],$ele)){
-				var message;
-				if(!condition["message"]){
-					if(key == 'type'){
-						message = defaultMsg(condition[key]);
-					}else{
-						message = defaultMsg(key);
-					}
-				}else{
-					message = condition["message"];
-				}
-				changeCss($ele,message,false);
-				return false;
-			}
+		var defoption = {
+				beforeSubmit:true
+			};
+		options = $.extend(defoption,options);
+		
+		// 添加入formMap
+		_formMap.put($form.attr("id"),options);
+		// 绑定事件
+		for(var key in options.rules){
+			(function(){
+				var name = key;
+				$form.find("[name='"+name+"']").blur(function(){
+					validate(this,options.rules[name],name);
+				});
+			}());
 		}
+		
+		// 设置回调函数
+		$form.attr("onsubmit","return bs_beforeSubmit(this)");
 	}
-	changeCss($ele,"",true);
-	return true;
+	
 }
 
 /**
- * 根据类型名称获取默认的提示信息
+ * 解析校验规则
+ * @param $ele
+ * @param rule
  */
-function defaultMsg(type){
-	var demsg = {
-			"phone":"输入的手机号不合法",
-			"email":"输入的email地址不合法",
-			"number":"请输入数字",
-			"date":"输入的日期不合法",
-			"CHS":"请输入中文",
-			"EN":"请输入英文",
-			"eqTo":"两次密码不一致",
-			"minLength":"输入的值小于最小长度",
-			"maxLength":"输入的值大于最大长度",
-			"min":"输入的值小于最小值",
-			"max":"输入的值大于最大值",
+function validate(ele,rule,name){
+	var value = $(ele).val();
+	for(var key in rule){
+		var flag = true;
+		(function(){
+			if(!eachValidate($(ele),key,rule[key],name)){
+				flag = false;
+			}
+			
+		})()
+		if(!flag){
+			return;
+		}
 	}
 	
-	return demsg[type];
+}
+
+function eachValidate($ele,key,validate,name){
+	var value = $ele.val();
+	var flag =  eval(key+"('"+value+"','"+validate+"','"+name+"')");
+	changeCss($ele,defMessage(key),flag);
+	return flag;
 }
 
 /**
@@ -122,264 +127,119 @@ function changeCss($ele,message,isChange){
 	}
 }
 
+
+function defMessage(key){
+	var map = {
+			"required":"请输入",
+			"minLength":"输入值小于最小长度",
+			"maxLength":"输入值大于最大长度",
+			"eqTo":"两次密码不一致",
+			"remote":"校验失败"
+			}
+	
+	return map[key];
+}
+
 /**
- * 单元类型校验
+ * 提交表单时验证（回调函数）
  */
-function validate($ele,condition){
-	var value = $ele.val();
-	if(condition["required"]&&condition["required"]==true){
-		if(!value){
-			changeCss($ele,"此为必输项",false);
-			return false;
-		}else{
-			changeCss($ele,"",true);
+function bs_beforeSubmit(obj){
+	// 获取options
+	var options = _formMap.get($(obj).attr("id"));
+	// 校验
+	var flag = true;
+	for(var key in options.rules){
+		(function(){
+			if(!validate($(obj).find("[name='"+key+"']"),options.rules[key])){
+				flag = false;
+			}
+		}());
+	}
+	if(flag && options.beforeSubmit){
+		return true;
+	}
+	return false;
+	
+}
+
+/**
+ * 校验必输项
+ * @param value
+ * @param validate
+ * @returns {Boolean}
+ */
+function required(value,validate,name){
+	if(validate == 'true' || validate == true || validate == 'required'){
+		if(value){
+			return true;
 		}
 	}
-	if(value&&condition["type"]&&condition["type"]&&condition["type"]=="phone"){
-		var	message = defaultMsg("phone");
-		if(!checkType("phone",value)){
-			changeCss($ele,message,false);
+	return false;
+}
+
+/**
+ * 最小长度
+ * @param value
+ * @param validate
+ * @returns {Boolean}
+ */
+function minLength(value,validate,key,name){
+	if(value){
+		if(value.length<validate){
 			return false;
-		}else{
-			changeCss($ele,"",true);
-		}
-	}
-	if(value&&condition["type"]&&condition["type"]&&condition["type"]=="email"){
-		var	message = defaultMsg("email");
-		if(!checkType("email",value)){
-			changeCss($ele,message,false);
-			return false;
-		}else{
-			changeCss($ele,"",true);
-		}
-	}
-	if(value&&condition["type"]&&condition["type"]&&condition["type"]=="number"){
-		var	message = defaultMsg("number");
-		if(!checkType("number",value)){
-			changeCss($ele,message,false);
-			return false;
-		}else{
-			changeCss($ele,"",true);
-		}
-	}
-	if(value&&condition["type"]&&condition["type"]&&condition["type"]=="date"){
-		var	message = defaultMsg("date");
-		if(!checkType("date",value)){
-			changeCss($ele,message,false);
-			return false;
-		}else{
-			changeCss($ele,"",true);
-		}
-	}
-	if(value&&condition["type"]&&condition["type"]&&condition["type"]=="CHS"){
-		var	message = defaultMsg("CHS");
-		if(!checkType("CHS",value)){
-			changeCss($ele,message,false);
-			return false;
-		}else{
-			changeCss($ele,"",true);
-		}
-	}
-	if(value&&condition["type"]&&condition["type"]&&condition["type"]=="EN"){
-		var	message = defaultMsg("EN");
-		if(!checkType("EN",value)){
-			changeCss($ele,message,false);
-			return false;
-		}else{
-			changeCss($ele,"",true);
-		}
-	}
-	if(value&&condition["minLength"]){
-		var	message = defaultMsg("minLength");
-		if(value.length<condition["minLength"]){
-			changeCss($ele,message,false);
-			return false;
-		}else{
-			changeCss($ele,"",true);
-		}
-	}
-	if(value&&condition["maxLength"]){
-		var	message = defaultMsg("maxLength");
-		if(value.length>condition["maxLength"]){
-			changeCss($ele,message,false);
-			return false;
-		}else{
-			changeCss($ele,"",true);
-		}
-	}
-	if(value&&condition["min"]){
-		var	message = defaultMsg("min");
-		if(value<condition["min"]){
-			changeCss($ele,message,false);
-			return false;
-		}else{
-			changeCss($ele,"",true);
-		}
-	}
-	if(value&&condition["max"]){
-		if(!message){
-			message = defaultMsg("max");
-		}
-		if(value>condition["max"]){
-			changeCss($ele,message,false);
-			return false;
-		}else{
-			changeCss($ele,"",true);
-		}
-	}
-	if(value&&condition["eqTo"]){
-		var	message = defaultMsg("eqTo");
-		if($(condition["eqTo"]).val() != value){
-			changeCss($ele,message,false);
-			return false;
-		}else{
-			changeCss($ele,"",true);
 		}
 	}
 	return true;
 }
 
 /**
- * 根据类型校验
- * @param key
+ * 最大长度
  * @param value
- * @param $ele
+ * @param validate
+ * @returns {Boolean}
  */
-function checkType(key,value){
-	switch(key){
-		case "phone" :
-			var reg = /^1[3|4|5|8|9]\d{9}$/;        
-			return reg.test(value);    
-		case "email" :
-			var reg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
-			return reg.test(value);
-		case "number" :
-			return !isNan(value);
-		case "date" :
-			var a = /^(\d{4})-(\d{2})-(\d{2})$/;
-	        return a.test(value);
-		case "CHS" :
-			var reg = /^[\u0391-\uFFE5]+$/;
-			return reg.test(value);
-		case "EN" :
-			var reg = /^[A-Z|a-z]+$/;
-			return reg.test(value);
-		default :
-			return true;
+function maxLength(value,validate,key,name){
+	if(value){
+		if(value.length>validate){
+			return false;
+		}
 	}
+	return true;
 }
 
 /**
- * 表单提交前校验
- * @param form
- * @returns
+ * 校验两次密码是否一致
+ * @param value
+ * @param validate
  */
-function beforeSubmit(form){
-	var isSubmit = true;
-	for(var key in _options.rules){
-		var id = "#"+key;
-		if(!validate($(id), _options.rules[key])){
-			isSubmit = false;
+function eqTo(value,validate,key,name){
+	if(value){
+		if(value != $(validate).val()){
+			return false;
 		}
 	}
-	if(isSubmit&&_options.beforSubmit){
-		if(isSubmit && _options.modal){
-			// 开启么模态框
-			$(_options.modal).modal('toggle');
-		}
-		return true;
-	}
-	return false;
+	return true;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /**
- * 校验输入项
- * @param id 待校验表格ID
- * @param rule 校验项
+ * 远程校验
+ * @param value
+ * @param validate
+ * @param name
  */
-function check(id,rule){
-	
-	/**
-	 *  根据ID获取校验项内容
-	 */ 
-	var value = $("#"+id).val();
-	
-	/**
-	 * 循环校验规则
-	 */
-	var $each = function(validate){
-		
-		for(var key in rule){
-			// 根据key调用校验函数
-			validate.call(id,key,rule[key]);
-		}
-		
-	}
-	
+function remote(value,validate,name){
+	var param = {name:value};
+	var flag = false;
+	$.ajax({
+		url: validate, 
+		data:param,
+		async:false,
+		type:"post",
+		success: function(data){
+			if(data == 'true' || data == true){
+				flag = true;
+			}
+       }
+	});
+	return flag;
 }
-
-function validateMap(key,rule){
-	var map = {
-			"required":required(rule),
-	}
-}
-
-function required(rule){
-	alert(1);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
