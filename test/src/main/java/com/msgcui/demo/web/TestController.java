@@ -19,7 +19,7 @@ public class TestController {
 	public String test(){
 		service.findAll();
 		System.out.println("test");
-		return "test";
+		return "index";
 	}
 	
 	@RequestMapping(value="/remote",method=RequestMethod.POST)
