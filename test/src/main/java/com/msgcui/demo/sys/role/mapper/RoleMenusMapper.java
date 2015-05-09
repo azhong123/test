@@ -1,4 +1,4 @@
-package com.msgcui.demo.role.mapper;
+package com.msgcui.demo.sys.role.mapper;
 
 import com.msgcui.demo.base.mapper.BaseMapper;
 

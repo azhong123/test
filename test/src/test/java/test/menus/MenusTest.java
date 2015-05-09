@@ -8,8 +8,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.msgcui.demo.base.constant.Status;
-import com.msgcui.demo.menus.mapper.MenusMapper;
-import com.msgcui.demo.menus.service.MenusService;
+import com.msgcui.demo.sys.menus.mapper.MenusMapper;
+import com.msgcui.demo.sys.menus.service.MenusService;
 
 import test.BaseTest;
 

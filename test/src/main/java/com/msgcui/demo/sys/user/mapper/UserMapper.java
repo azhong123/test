@@ -1,4 +1,4 @@
-package com.msgcui.demo.user.mapper;
+package com.msgcui.demo.sys.user.mapper;
 
 import com.msgcui.demo.base.mapper.BaseMapper;
 

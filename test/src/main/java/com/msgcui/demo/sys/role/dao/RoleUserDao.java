@@ -1,7 +1,7 @@
-package com.msgcui.demo.role.dao;
+package com.msgcui.demo.sys.role.dao;
 
 import com.msgcui.demo.base.dao.BaseDao;
-import com.msgcui.demo.role.mapper.RoleUserMapper;
+import com.msgcui.demo.sys.role.mapper.RoleUserMapper;
 
 public interface RoleUserDao extends BaseDao<RoleUserMapper>{
 

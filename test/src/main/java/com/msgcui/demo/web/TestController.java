@@ -6,7 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.msgcui.demo.user.service.UserService;
+import com.msgcui.demo.sys.user.service.UserService;
+
 
 @Controller
 @RequestMapping("/demo")

@@ -1,4 +1,4 @@
-package com.msgcui.demo.menus.mapper;
+package com.msgcui.demo.sys.menus.mapper;
 
 import com.msgcui.demo.base.mapper.BaseMapper;
 

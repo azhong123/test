@@ -8,8 +8,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.msgcui.demo.base.constant.Status;
-import com.msgcui.demo.user.mapper.UserMapper;
-import com.msgcui.demo.user.service.UserService;
+import com.msgcui.demo.sys.user.mapper.UserMapper;
+import com.msgcui.demo.sys.user.service.UserService;
 
 import test.BaseTest;
 
