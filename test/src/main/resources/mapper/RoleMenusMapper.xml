@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.msgcui.demo.role.dao.RoleMenusDao">
+<mapper namespace="com.msgcui.demo.sys.role.dao.RoleMenusDao">
     <resultMap id="roleMenusResult" type="RoleMenusMapper">
         <id property="id" column="id" />
         <result property="roleId" column="role_id" />

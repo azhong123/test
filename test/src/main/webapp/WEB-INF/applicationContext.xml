@@ -35,9 +35,10 @@
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 	  <property name="dataSource" ref="dataSource" />
 	  <!-- 实体类base路径，映射文件中只需写实体类名称即可 -->
-      <property name="typeAliasesPackage" value="com.msgcui.demo.user.mapper,
-      com.msgcui.demo.menus.mapper,
-      com.msgcui.demo.role.mapper" />
+      <property name="typeAliasesPackage" value="com.msgcui.demo.sys.user.mapper,
+      com.msgcui.demo.sys.group.mapper,
+      com.msgcui.demo.sys.role.mapper,
+      com.msgcui.demo.sys.menus.mapper" />
 	  <property name="mapperLocations">
         <list>
         	<!-- 扫描映射文件 -->
@@ -49,7 +50,7 @@
 	</bean>
 	<!-- 扫描DAO -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-	  <property name="basePackage" value="com.msgcui.demo.*.dao" />
+	  <property name="basePackage" value="com.msgcui.demo.**.dao" />
 	  <property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
 	
