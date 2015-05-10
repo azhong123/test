@@ -1,28 +1,29 @@
 package com.msgcui.demo.sys.user.mapper;
 
 import com.msgcui.demo.base.mapper.BaseMapper;
+import com.msgcui.demo.sys.group.mapper.GroupMapper;
 
 public class UserGroupMapper extends BaseMapper{
 
 	
-	private int userId;
+	private UserMapper user;
 	
-	private int groupId;
+	private GroupMapper group;
 
-	public int getUserId() {
-		return userId;
+	public UserMapper getUser() {
+		return user;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setUser(UserMapper user) {
+		this.user = user;
 	}
 
-	public int getGroupId() {
-		return groupId;
+	public GroupMapper getGroup() {
+		return group;
 	}
 
-	public void setGroupId(int groupId) {
-		this.groupId = groupId;
+	public void setGroup(GroupMapper group) {
+		this.group = group;
 	}
 	
 }

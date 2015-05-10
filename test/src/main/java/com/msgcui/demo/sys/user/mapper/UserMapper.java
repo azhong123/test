@@ -1,6 +1,9 @@
 package com.msgcui.demo.sys.user.mapper;
 
+import java.util.List;
+
 import com.msgcui.demo.base.mapper.BaseMapper;
+import com.msgcui.demo.sys.group.mapper.GroupMapper;
 
 
 public class UserMapper extends BaseMapper{
@@ -14,6 +17,8 @@ public class UserMapper extends BaseMapper{
 	private String email;
 	
 	private String phone;
+	
+	private List<GroupMapper> groupList;
 
 	public String getName() {
 		return name;
@@ -53,6 +58,14 @@ public class UserMapper extends BaseMapper{
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public List<GroupMapper> getGroupList() {
+		return groupList;
+	}
+
+	public void setGroupList(List<GroupMapper> groupList) {
+		this.groupList = groupList;
 	}
 	
 	

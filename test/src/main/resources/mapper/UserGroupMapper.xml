@@ -3,19 +3,19 @@
 <mapper namespace="com.msgcui.demo.sys.user.dao.UserGroupDao">
     <resultMap id="userGroupResult" type="UserGroupMapper">
         <id property="id" column="id" />
-        <result property="groupId" column="group_id" />
-        <result property="userId" column="user_id" />
         <result property="inputTime" column="input_time" />
         <result property="inputUserId" column="input_user_id" />
         <result property="modifyTime" column="modify_time" />
         <result property="modifyUserId" column="modify_user_id" />
         <result property="descript" column="descript" />
         <result property="status" column="status" />
+        <collection property="group" column="group_id" select="com.msgcui.demo.sys.group.dao.GroupDao.findById"></collection>
+        <collection property="user" column="user_id" select="com.msgcui.demo.sys.user.dao.UserDao.findById"></collection>
     </resultMap>
     
     <insert id="add" keyProperty="id" useGeneratedKeys="true" parameterType="UserGroupMapper">
     	insert into ms_user_group (group_id,user_id,input_time,input_user_id,modify_time,modify_user_id,descript,status) 
-    	values(#{groupId},#{userId},#{inputTime},#{inputUserId},#{modifyTime},#{modifyUserId},#{descript},#{status})
+    	values(#{group.id},#{user.id},#{inputTime},#{inputUserId},#{modifyTime},#{modifyUserId},#{descript},#{status})
     </insert>
     
     <select id="findAll" resultMap="userGroupResult">
@@ -24,6 +24,14 @@
     
     <select id="findById" resultMap="userGroupResult">
     	select * from ms_user_group where id = #{id} and status = 1
+    </select>
+    
+    <select id="findByUserId" resultMap="userGroupResult" parameterType="int">
+    	select * from ms_user_group where user_id = #{userId} and status = 1
+    </select>
+    
+    <select id="findByGroupId" resultMap="userGroupResult" parameterType="int">
+    	select * from ms_user_group where group_id = #{groupId} and status = 1
     </select>
     
 </mapper>

@@ -8,7 +8,9 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.msgcui.demo.base.constant.Status;
+import com.msgcui.demo.sys.group.mapper.GroupMapper;
 import com.msgcui.demo.sys.user.mapper.UserGroupMapper;
+import com.msgcui.demo.sys.user.mapper.UserMapper;
 import com.msgcui.demo.sys.user.service.UserGroupService;
 
 import test.BaseTest;
@@ -38,13 +40,17 @@ public class UserGroupTest extends BaseTest{
 	
 	public UserGroupMapper getUserGroup(){
 		UserGroupMapper userGroup = new UserGroupMapper();
+		GroupMapper group = new GroupMapper();
+		group.setId(1);
 		userGroup.setDescript("test");
-		userGroup.setGroupId(1);
+		userGroup.setGroup(group);
 		userGroup.setInputTime(new Date());
 		userGroup.setInputUserId(1);
 		userGroup.setModifyTime(new Date());
 		userGroup.setModifyUserId(1);
-		userGroup.setUserId(1);
+		UserMapper user = new UserMapper();
+		user.setId(1);
+		userGroup.setUser(user);
 		userGroup.setStatus(Status.enable);
 		return userGroup;
 	}

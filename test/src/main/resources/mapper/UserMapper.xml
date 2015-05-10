@@ -14,6 +14,7 @@
         <result property="modifyUserId" column="modify_user_id" />
         <result property="descript" column="descript" />
         <result property="status" column="status" />
+        <collection property="groupList" column="id" select="com.msgcui.demo.sys.user.dao.UserGroupDao.findByUserId"/>
     </resultMap>
     
     <!-- 添加User -->

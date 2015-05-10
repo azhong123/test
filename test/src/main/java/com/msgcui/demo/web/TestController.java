@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.msgcui.demo.sys.user.service.UserGroupService;
 import com.msgcui.demo.sys.user.service.UserService;
 
 
@@ -15,11 +16,15 @@ public class TestController {
 	
 	@Autowired
 	private UserService service;
+	@Autowired
+	private UserGroupService ugService;
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public String test(){
-		service.findAll();
-		System.out.println("test");
+		/**
+		 * 1. 根据当前登录用户获取用户组
+		 */
+		
 		return "index";
 	}
 	
